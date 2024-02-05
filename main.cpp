@@ -5,14 +5,11 @@
     int numTilesY = 24;  
 
     //Window Width in tiles
-    int WindowTilesX = 25;  
-    
-    // Size of each tile in pixels
-    int tileSize = 32;
+    int windowTilesX = 25;  
 
     // Calculate the window width and height
-    int windowWidth = WindowTilesX * tileSize;
-    int windowHeight = numTilesY * tileSize;
+    int windowWidth = windowTilesX * config::tileSize;
+    int windowHeight = numTilesY * config::tileSize;
     char windowTitle[]{"Platformer"};
 
     // Variables for the image
@@ -25,6 +22,8 @@ int main(int argc, char const *argv[])
 
     SetTargetFPS(60);
 
+     std::vector<Platform> platforms = Platform::GetAllPlatforms();
+
     while (!WindowShouldClose())
     {     
         BeginDrawing();
@@ -33,8 +32,11 @@ int main(int argc, char const *argv[])
         // Set up the background
         worldMap = LoadTexture("Assets/levelplatformer.png");
         mapPosition = {0.0, 0.0};
+        DrawTextureEx(worldMap, mapPosition, 0.0, 1.0, WHITE);       
 
-        DrawTextureEx(worldMap, mapPosition, 0.0, 1.0, WHITE);
+        for (auto &platform : platforms) {
+            platform.Draw();
+        }
 
         EndDrawing();
     }
