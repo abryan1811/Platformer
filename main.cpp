@@ -15,27 +15,50 @@
     // Variables for the image
     Texture2D worldMap;
     Vector2 mapPosition;
+    Platform platform;
 
 int main(int argc, char const *argv[])
 {
     InitWindow(windowWidth, windowHeight, windowTitle);
 
     SetTargetFPS(60);
+    
+    worldMap = LoadTexture("Assets/levelplatformer.png");
+    mapPosition = {0.0, 0.0};
 
-     std::vector<Platform> platforms = Platform::GetAllPlatforms();
+    platform.InitializeTextures();
+
+    std::vector<Platform> platforms = Platform::GetAllPlatforms();
+
+     std::vector<Platform> movingPlatforms = Platform::GetUpwardsMovingPlatforms();
 
     while (!WindowShouldClose())
     {     
+        float deltaTime = GetFrameTime();
+
+        // Update the movement of each moving platform
+        for (auto &movPlatform : movingPlatforms) {
+            movPlatform.UpdateDownToUpMovement(deltaTime);
+        }    
+ 
+
         BeginDrawing();
         ClearBackground(DARKBLUE); 
 
         // Set up the background
-        worldMap = LoadTexture("Assets/levelplatformer.png");
-        mapPosition = {0.0, 0.0};
-        DrawTextureEx(worldMap, mapPosition, 0.0, 1.0, WHITE);       
+        
+        DrawTextureEx(worldMap, mapPosition, 0.0, 1.0, WHITE);
+        
+        for (auto &movPlatform : movingPlatforms) {
+            movPlatform.Draw();
+            platform.DrawMovingTexture();
+            //This moves the platform up and Down
+            platform.mapPosition.y = movPlatform.mapPosition.y;
+        }
 
-        for (auto &platform : platforms) {
-            platform.Draw();
+        // Draw static platforms
+        for (auto &staticPlatform : platforms) {
+            staticPlatform.Draw();
         }
 
         EndDrawing();
