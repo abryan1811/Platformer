@@ -2,7 +2,8 @@
 #include "config.h"
 #include <vector>
 
-class Platform {
+class Platform
+{
 public:
     Rectangle rect;
     bool isSolid;
@@ -11,10 +12,10 @@ public:
     void InitializeTextures();
 
     bool movesUpAndDown;
-    float minY; // Minimum Y position to move to
-    float maxY; // Maximum Y position to move to
+    float minY;        // Minimum Y position to move to
+    float maxY;        // Maximum Y position to move to
     float movingSpeed; // Speed of the up and down movement
-    bool movingUp; //Checks if platform is moving upwards
+    bool movingUp;     // Checks if platform is moving upwards
 
     // default
     Platform();
@@ -27,10 +28,9 @@ public:
 
     void DrawMovingTexture();
 
-     void UpdateDownToUpMovement(float deltaTime);
+    void UpdateDownToUpMovement(float deltaTime);
 
     static std::vector<Platform> GetAllPlatforms();
 
     static std::vector<Platform> GetUpwardsMovingPlatforms();
-   
 };
