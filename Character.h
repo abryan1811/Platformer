@@ -10,6 +10,7 @@ class Character {
 public:
     Vector2 position;
     Vector2 velocity;
+    float jumpVelocity = -300.f;
     float speed = 200.0f;
     bool isOnGround = false;
 

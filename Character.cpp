@@ -2,7 +2,7 @@
 #include "Platform.h"
 
 Character::Character() {
-    position = {350.0f, 280.0f}; // Starting position
+    position = {100.0f, 280.0f}; // Starting position
     velocity = {0.0f, 0.0f}; // Initial velocity (0 so rectangle is still on startup)
 }
 
@@ -10,6 +10,10 @@ void Character::Update(float deltaTime, const std::vector<Platform>& platforms, 
     // Apply gravity if not on the ground
     if (!isOnGround) {
         velocity.y += gravity * deltaTime;
+    }
+    else if (IsKeyDown(KEY_SPACE)){
+        velocity.y = jumpVelocity;
+        isOnGround=false;
     }
 
     // Update position based on velocity
@@ -49,9 +53,11 @@ void Character::Update(float deltaTime, const std::vector<Platform>& platforms, 
         }
     }
 
-    // Simple left and right movement (no jumping included yet)
-    if (IsKeyDown(KEY_RIGHT)) position.x += speed * deltaTime;
-    if (IsKeyDown(KEY_LEFT)) position.x -= speed * deltaTime;
+    // Simple left and right movement
+    if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) position.x += speed * deltaTime;
+    if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) position.x -= speed * deltaTime;
+
+    
 }
 
 void Character::Draw() {
