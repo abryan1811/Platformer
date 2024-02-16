@@ -38,7 +38,7 @@ int main(int argc, char const *argv[])
     {
         float deltaTime = GetFrameTime();
 
-        player.Update(deltaTime, platforms);
+        player.Update(deltaTime, platforms, movingPlatforms);
 
         // Update the movement of each moving platform
         for (auto &movPlatform : movingPlatforms)
