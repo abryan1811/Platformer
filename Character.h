@@ -17,7 +17,7 @@ public:
     Character();
 
     void Update(float deltaTime, const std::vector<Platform>& staticPlatforms, const std::vector<Platform>& movingPlatforms);
-
+    
     // Apply gravity);
     void Draw();
 private:

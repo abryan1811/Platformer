@@ -57,16 +57,16 @@ int main(int argc, char const *argv[])
 
         for (auto &movPlatform : movingPlatforms)
         {
-            // movPlatform.Draw();
+             movPlatform.Draw();
              platform.DrawMovingTexture();
-            // This moves the platform up and Down
+             //This moves the platform up and Down
             platform.mapPosition.y = movPlatform.mapPosition.y;
         }
 
         // Draw static platforms
         for (auto &staticPlatform : platforms)
         {
-            // staticPlatform.Draw();
+             staticPlatform.Draw();
         }
 
         EndDrawing();
