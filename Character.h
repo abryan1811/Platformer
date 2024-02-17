@@ -10,6 +10,7 @@ class Character {
 public:
     Vector2 position;
     Vector2 velocity;
+    float gravity = 980.0f;
     float jumpVelocity = -300.f;
     float speed = 200.0f;
     bool isOnGround = false;
@@ -19,10 +20,13 @@ public:
     void Update(float deltaTime, const std::vector<Platform>& staticPlatforms, const std::vector<Platform>& movingPlatforms);
     
     // Apply gravity);
+    float GetGravity() const { return gravity; }
+    void SetGravity(float newGravity) { gravity = newGravity; }
+    
     void Draw();
-private:
-    float gravity = 980.0f;
     Rectangle getCollisionRec() const;
+private:
+    
 };
 
 #endif 

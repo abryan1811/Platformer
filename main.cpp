@@ -31,6 +31,8 @@ Texture2D worldMap;
 Vector2 mapPosition;
 Platform platform;
 
+
+
 int main(int argc, char const *argv[])
 {
     InitWindow(windowWidth, windowHeight, windowTitle);
@@ -47,6 +49,13 @@ int main(int argc, char const *argv[])
     std::vector<Platform> platforms = Platform::GetAllPlatforms();
 
     std::vector<Platform> movingPlatforms = Platform::GetUpwardsMovingPlatforms();
+    
+    std::vector<Upgrade*> upgrades;
+
+    float upgradeBoxX = 29.0f * config::tileSize; 
+    float upgradeBoxY = windowHeight / 2.0f - 70; 
+
+    upgrades.push_back(new LowGravityUpgrade(upgradeBoxX, upgradeBoxY, GREEN));
 
     camera.target = (Vector2){ player.position.x, player.position.y };
     camera.offset = (Vector2){ windowWidth / 2.0f, windowHeight / 2.0f };
@@ -94,10 +103,28 @@ int main(int argc, char const *argv[])
              staticPlatform.Draw();
         }
 
+        for (auto& upgrade : upgrades) {
+        upgrade->Draw();
+        }
+
+        for (auto& upgrade : upgrades) {
+            if (upgrade->active && CheckCollisionRecs(player.getCollisionRec(), upgrade->GetCollisionRec())) {
+                upgrade->ApplyEffect(player); // This will call LowGravityUpgrade::ApplyEffect
+                upgrade->active = false; // Mark the upgrade as collected/inactive
+            }
+        }
+
+        
+
         EndMode2D();
 
         EndDrawing();
     }
+    
+    for (auto& upgrade : upgrades) {
+            delete upgrade;
+        }
+        upgrades.clear();
 
     CloseWindow();
     return 0;
