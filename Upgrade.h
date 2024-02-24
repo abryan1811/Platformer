@@ -11,7 +11,7 @@ public:
     Color color; // Add a Color attribute to upgrades (will later be an image)
     bool active;
     float duration; // Duration the upgrade is active for 
-    float timer; // A timer to track how long the upgrade has been active (may be unnecessary)
+    float timer; // A timer to track how long the upgrade has been active
 
     Upgrade(float x, float y, Color color) : position({x, y}), color(color), active(true), duration(10.0f), timer(0.0f) {}
     virtual ~Upgrade() = default; // Ensure a virtual destructor for proper cleanup

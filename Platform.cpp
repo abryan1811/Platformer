@@ -49,6 +49,8 @@ std::vector<Platform> Platform::GetAllPlatforms()
 
     platforms.emplace_back(29.0f * config::tileSize, 13 * config::tileSize, 1 * config::tileSize, config::tileSize);
 
+    platforms.emplace_back(37.5f * config::tileSize, 13 * config::tileSize, 5.5 * config::tileSize, 0.5 * config::tileSize);
+
     return platforms;
 }
 
@@ -56,7 +58,7 @@ std::vector<Platform> Platform::GetUpwardsMovingPlatforms()
 {
     std::vector<Platform> upwardMovingPlatforms;
     // Create a moving platform with specific parameters for size and locations.
-    Platform movingPlatform(10.3f * config::tileSize, 19.6f * config::tileSize, 3 * config::tileSize, 0.1f * config::tileSize);
+    Platform movingPlatform(10.3f * config::tileSize, 19.f * config::tileSize, 3 * config::tileSize, 0.1f * config::tileSize);
     movingPlatform.movesUpAndDown = true;
     movingPlatform.minY = 19 * config::tileSize - (7 * config::tileSize); // Move up 2 tiles
     movingPlatform.maxY = 19 * config::tileSize;                          // Original position

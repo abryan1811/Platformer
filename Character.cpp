@@ -4,6 +4,8 @@
 Character::Character() {
     position = {100.0f, 280.0f}; // Starting position
     velocity = {0.0f, 0.0f}; // Initial velocity (0 so rectangle is still on startup)
+    textureIdle = LoadTexture("Assets/Knight_player/Idle_KG_1.png");
+    textureRunning = LoadTexture("Assets/Knight_player/Walking_KG_1.png");
 }
 
 void Character::Update(float deltaTime, const std::vector<Platform>& platforms, const std::vector<Platform>& movingPlatforms) {
@@ -57,13 +59,29 @@ void Character::Update(float deltaTime, const std::vector<Platform>& platforms, 
     if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) position.x += speed * deltaTime;
     if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) position.x -= speed * deltaTime;
 
-    
+ bool isMoving = (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A));
+    animationState = isMoving ? Running : Idle;
+    facingRight = (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) ? true : (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) ? false : facingRight;
+
+    // Animation frame update logic
+    frameTime += deltaTime;
+    if (frameTime >= frameChangeRate) {
+        frameTime = 0;
+        currentFrame = (currentFrame + 1) % maxFrames;
+    }
+
+    maxFrames = (animationState == Running) ? 7 : 4; // Update based on current animation
 }
+    
 
 void Character::Draw() {
-    DrawRectangle(position.x, position.y, 20, 40, RED); // Character represented as a rectangle
+    Texture2D textureToUse = (animationState == Idle) ? textureIdle : textureRunning;
+    Rectangle sourceRec = {currentFrame * (textureToUse.width / maxFrames), 0, facingRight ? (float)textureToUse.width / maxFrames : -(float)textureToUse.width / maxFrames, (float)textureToUse.height};
+    Rectangle destRec = {position.x, position.y, 60, 40}; // Adjust size as needed
+
+    DrawTexturePro(textureToUse, sourceRec, destRec, (Vector2){0, 0}, 0.0f, WHITE);
 }
 
 Rectangle Character::getCollisionRec() const {
-    return { position.x, position.y, 20.0f, 40.0f }; // This creates a collision around the character (same size as the rectangle)
+    return { position.x, position.y, 60.0f, 40.0f }; // This creates a collision around the character (same size as the character texture)
 }

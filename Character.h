@@ -26,6 +26,21 @@ public:
     void Draw();
     Rectangle getCollisionRec() const;
 private:
+    enum AnimationState {
+            Idle,
+            Running
+        };
+    
+    Texture2D textureIdle;
+    Texture2D textureRunning;
+    int currentFrame = 0;
+    float frameTime = 0; // Time since last frame change
+    float frameChangeRate = 1.0f / 12.0f; // Change frame every 1/12th of a second
+    int maxFrames = 4; // Default to idle frames count
+    bool facingRight = true; // Character starts facing right
+    AnimationState animationState = Idle; // Start with idle animation
+
+    
     
 };
 
